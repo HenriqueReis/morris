@@ -36,4 +36,4 @@ The game ends when a player has less than 3 pieces.
 
 1. Compile the project:
    ```bash
-   gcc main.c ninemens.c -o ninemens
+   gcc morris.c ninemens.c -o ninemens
