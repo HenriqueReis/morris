@@ -2,6 +2,8 @@
 # define NMM_H
 
 # include <stdio.h>
+# include "../minilibx-linux/mlx.h"
+
 # define checkoverride(X,Y) !(X & Y) // check if the movement of a player doesn't override the opponent's board
 # define clear() printf("\033[H\033[J") // macro to clear screen
 # define iseven(X) getbit(X, 0) == 0 
