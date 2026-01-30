@@ -1,41 +1,61 @@
 #include <MLX42/MLX42.h>
 #include <stdlib.h>
 
+typedef struct s_game
+{
+    mlx_t        *mlx;
+    mlx_image_t  *board;
+    mlx_image_t  *piece;
+} t_game;
+
+void mouse_hook(mouse_key_t button, action_t action,
+                modifier_key_t mods, void *param)
+{
+    t_game *game;
+    int x, y;
+    int32_t id;
+
+    (void)mods;
+    game = param;
+
+    if (button == MLX_MOUSE_BUTTON_LEFT && action == MLX_PRESS)
+    {
+        mlx_get_mouse_pos(game->mlx, &x, &y);
+
+        id = mlx_image_to_window(game->mlx, game->piece, x, y);
+        if (id >= 0)
+        {
+            game->piece->instances[id].z = 1;
+            game->piece->instances[id].enabled = true;
+        }
+    }
+}
+
 int main(void)
 {
-    mlx_t          *mlx;
-    mlx_texture_t  *texture;
-    mlx_image_t    *image;
+    t_game game;
+    mlx_texture_t *tex;
 
-    // 1. Inicializa MLX / cria janela
-    mlx = mlx_init(800, 600, "PNG Test", true);
-    if (!mlx)
+    game.mlx = mlx_init(800, 600, "PNG Test", true);
+    if (!game.mlx)
         return (EXIT_FAILURE);
 
-    // 2. Carrega o PNG para uma textura
-    texture = mlx_load_png("../assets/board8h6h.png");
-    if (!texture)
-    {
-        mlx_terminate(mlx);
-        return (EXIT_FAILURE);
-    }
+    // Board
+    tex = mlx_load_png("../assets/board8h6h.png");
+    game.board = mlx_texture_to_image(game.mlx, tex);
+    mlx_delete_texture(tex);
+    mlx_image_to_window(game.mlx, game.board, 0, 0);
 
-    // 3. Converte a textura em imagem renderizável
-    image = mlx_texture_to_image(mlx, texture);
-    mlx_delete_texture(texture);
-    if (!image)
-    {
-        mlx_terminate(mlx);
-        return (EXIT_FAILURE);
-    }
+    // Piece (carregada UMA VEZ)
+    tex = mlx_load_png("../assets/blue.png");
+    game.piece = mlx_texture_to_image(game.mlx, tex);
+    mlx_delete_texture(tex);
 
-    // 4. Coloca a imagem na janela (0,0)
-    mlx_image_to_window(mlx, image, 0, 0);
+    // Hook ANTES do loop
+    mlx_mouse_hook(game.mlx, mouse_hook, &game);
 
-    // 5. Loop de eventos
-    mlx_loop(mlx);
-
-    // 6. Finalização
-    mlx_terminate(mlx);
+    mlx_loop(game.mlx);
+    mlx_terminate(game.mlx);
     return (EXIT_SUCCESS);
 }
+
