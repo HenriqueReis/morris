@@ -22,7 +22,7 @@ void mouse_hook(mouse_key_t button, action_t action,
     {
         mlx_get_mouse_pos(game->mlx, &x, &y);
 
-        id = mlx_image_to_window(game->mlx, game->piece, x, y);
+        id = mlx_image_to_window(game->mlx, game->piece, x - 27, y - 30);
         if (id >= 0)
         {
             game->piece->instances[id].z = 1;
@@ -47,7 +47,7 @@ int main(void)
     mlx_image_to_window(game.mlx, game.board, 0, 0);
 
     // Piece (carregada UMA VEZ)
-    tex = mlx_load_png("../assets/blue.png");
+    tex = mlx_load_png("../assets/black.png");
     game.piece = mlx_texture_to_image(game.mlx, tex);
     mlx_delete_texture(tex);
 
