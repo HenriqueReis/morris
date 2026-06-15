@@ -13,6 +13,12 @@
 # define ON 1
 # define OFF 0
 
+typedef struct s_player 
+{
+	int board;
+	int offboard;
+} t_player;
+
 int setbit(int x, int position, int value);
 int getbit(int x, int p); // return the bit's value in desired position
 int getbits(int x, int p, int n); // return number with the bits values with position p changed to value n
@@ -23,5 +29,6 @@ int numberofpieces(int playerboard); //count the number of pieces a given player
 int validmove(int previous, int next);
 int canputpiece(int board1, int board2, int position);
 int checktriplets(int board, int position);
+void init_player(t_player *p);
 
 #endif

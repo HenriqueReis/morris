@@ -1,4 +1,4 @@
-#include "ninemens.h"
+#include "../includes/ninemens.h"
 int setbit(int x, int position, int value) { // return x with position bit changed to value
     return ((x & ~(1 << position)) | (value << position));
 }
@@ -8,7 +8,7 @@ int getbit(int x, int p) { // return the bit's value in desired position
 }
 
 int getbits(int x, int p, int n) { // return number with the bits values with position p changed to value n
-    return (x >> (p + 1 - n)) & ~(~0 << n);
+    return (x >> (p + 1 - n)) & ~(~0U << n);
 }
 
 int countdifferentbits(int x, int y) {// return the number of differents bits of two numbers comparisson
@@ -88,6 +88,18 @@ int checktriplets(int board, int position) {
   return ((getbit(board, triplets[position][0]) && getbit(board, triplets[position][1])) || (getbit(board, triplets[position][2]) && getbit(board, triplets[position][3])));
 
 }
+
+void init_player(t_player *p)
+{
+	p->board = 0;
+	p->offboard = 9;
+}
+
+
+
+
+
+
 /* FICANDO OBSOLETO
  *
 int move(int x, int from, int to) { // average move

@@ -1,20 +1,20 @@
 #include <stdio.h>
-#include "ninemens.h"
+#include "../includes/ninemens.h"
 
 int main() {
  
-struct Player {
-   int board;
-   int offboard;
-};
 
-  struct Player player[2];
   int looser = -1, actualplayer = 0, positionget = 0, positionset = 0;
   int putoff, next;
+  /*
   for (int i = 0; i < 2; i++) {
      player[i].board = 0;
      player[i].offboard = 9;
-  }
+  }*/
+
+  t_player player[2];
+  init_player(&player[0]);
+  init_player(&player[1]);
 
   do {
 
